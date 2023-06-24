@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  book-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: book-service
+    container_name: book-service
+    networks:
+      - book-service-net
+    ports:
+      - 8080:8080
+    env_file:
+      - ./config/dev-container.env
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    networks:
+      - book-service-net
+    ports:
+      - "5433:5432"
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+    volumes:
+      - service-data:/var/lib/postgresql/data
+      # copy the sql script to create db & table
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+networks:
+  book-service-net:
+    name: book-service-network
+volumes:
+  service-data:
+    driver: local
