@@ -1,7 +1,6 @@
 package book
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -33,13 +32,7 @@ func (h *Handler) parseValidateRequestBody(r *http.Request) (dto.CreateUpdateBoo
 	}
 	// validate request body
 	err = h.validate.Struct(d)
-	if err != nil {
-		// Struct is invalid
-		for _, err := range err.(validator.ValidationErrors) {
-			fmt.Println(err.Field(), err.Tag())
-		}
-	}
-	return d, nil
+	return d, err
 }
 
 func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {

@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY go.mod go.sum ./
 
-# COPY ./config/prod.env ./.env
+COPY ./config/container.env ./.env
 
 RUN go mod download
 

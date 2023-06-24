@@ -38,6 +38,7 @@ func (s *Service) Create(d *dto.CreateUpdateBookDto, w http.ResponseWriter, r *h
 	// convert dto to entity
 	b := entity.Book{}
 	b.Title = d.Title
+	b.Author = d.Author
 	b.PublicationYear = d.PublicationYear
 	n := time.Now().UnixMilli()
 	b.CreatedAt = n
@@ -80,6 +81,7 @@ func (s *Service) Update(id string, d *dto.CreateUpdateBookDto, w http.ResponseW
 		return
 	}
 	b.Title = d.Title
+	b.Author = d.Author
 	b.PublicationYear = d.PublicationYear
 	b.UpdatedAt = time.Now().UnixMilli()
 	rows, err := s.repository.Update(id, &b)

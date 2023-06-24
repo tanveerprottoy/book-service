@@ -32,8 +32,8 @@ go.work
 .history/
 
 # keep env examples
-!dev.env
-!prod.env
+!container.env
+!local.env
 
 # binaries
 bin/

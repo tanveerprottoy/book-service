@@ -18,7 +18,7 @@ func NewRepository(db *sqlx.DB) *Repository[entity.Book] {
 
 func (r *Repository[T]) Create(e *entity.Book) error {
 	var lastId string
-	err := r.db.QueryRow("INSERT INTO Books (title, publication_year, created_at, updated_at) VALUES ($1, $2, $3, $4) RETURNING id", e.Title, e.PublicationYear, e.CreatedAt, e.UpdatedAt).Scan(&lastId)
+	err := r.db.QueryRow("INSERT INTO Books (title, author, publication_year, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING id", e.Title, e.Author, e.PublicationYear, e.CreatedAt, e.UpdatedAt).Scan(&lastId)
 	if err != nil {
 		return err
 	}
@@ -45,8 +45,8 @@ func (r *Repository[T]) ReadOne(id string) (entity.Book, error) {
 }
 
 func (r *Repository[T]) Update(id string, e *entity.Book) (int64, error) {
-	q := "UPDATE Books SET title = $2, publication_year = $3, updated_at = $4 WHERE id = $1"
-	res, err := r.db.Exec(q, id, e.Title, e.PublicationYear, e.UpdatedAt)
+	q := "UPDATE Books SET title = $2, author = $3, publication_year = $4, updated_at = $5 WHERE id = $1"
+	res, err := r.db.Exec(q, id, e.Title, e.Author, e.PublicationYear, e.UpdatedAt)
 	if err != nil {
 		return -1, err
 	}
